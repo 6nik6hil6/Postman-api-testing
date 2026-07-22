@@ -188,6 +188,104 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Add cart",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "let jsonData = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Cart has products\", function () {\r",
+              "    pm.expect(jsonData.products).to.have.lengthOf(1);\r",
+              "});\r",
+              "\r",
+              "pm.environment.set(\"cart_ID\",jsonData.id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"userId\": 1,\r\n    \"products\": [\r\n        {\r\n            \"id\": {{productId}},\r\n            \"quantity\": 4\r\n        }\r\n    ]\r\n}    ",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/carts/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "add"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Cart details",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "let jsonData = pm.response.json();\r",
+              "\r",
+              "\r",
+              "pm.test(\"Cart total is valid\", function () {\r",
+              "    pm.expect(jsonData.total).to.be.above(0)\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{base_url}}/carts/31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "carts",
+            "31"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
